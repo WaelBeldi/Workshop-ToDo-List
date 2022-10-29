@@ -1,5 +1,5 @@
 window.addEventListener("load", function () {
-  todos = [];
+  todos = JSON.parse(localStorage.getItem("todos")) || [];
   const newTodoForm = document.querySelector("#new-todo-form");
 
   newTodoForm.addEventListener("submit", function (e) {
@@ -15,13 +15,13 @@ window.addEventListener("load", function () {
     } else {
       todos.push(todo);
 
-      // localStorage.setItem("todos", JSON.stringify(todos));
+      localStorage.setItem("todos", JSON.stringify(todos));
 
       e.target.reset();
     }
     DisplayTodos();
   });
-  // DisplayTodos();
+  DisplayTodos();
 });
 
 function DisplayTodos() {
@@ -73,7 +73,7 @@ function DisplayTodos() {
 
     input.addEventListener("click", function (e) {
       todo.done = e.target.checked;
-      // localStorage.setItem("todos", JSON.stringify(todos));
+      localStorage.setItem("todos", JSON.stringify(todos));
 
       if (todo.done) {
         todoItem.classList.add("done");
@@ -81,7 +81,7 @@ function DisplayTodos() {
         todoItem.classList.remove("done");
       }
 
-      // DisplayTodos();
+      DisplayTodos();
     });
 
     editButton.addEventListener("click", function (e) {
@@ -91,16 +91,16 @@ function DisplayTodos() {
       input.addEventListener("blur", function (e) {
         input.setAttribute("readonly", true);
         todo.content = e.target.value;
-        // localStorage.setItem("todos", JSON.stringify(todos));
-        // DisplayTodos();
+        localStorage.setItem("todos", JSON.stringify(todos));
+        DisplayTodos();
       });
     });
 
     deleteButton.addEventListener("click", function (e) {
-      e.target.parentElement.parentElement.remove()
-      // todos = todos.filter(t => t != todo);
-      // localStorage.setItem("todos", JSON.stringify(todos));
-      // DisplayTodos();
+      // e.target.parentElement.parentElement.remove()
+      todos = todos.filter(t => t != todo);
+      localStorage.setItem("todos", JSON.stringify(todos));
+      DisplayTodos();
     })
   });
 }
